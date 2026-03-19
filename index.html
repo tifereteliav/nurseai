@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>בינה מלאכותית באחיות: מהלכה למעשה</title>
+    
+    <!-- Google Fonts: Rubik for modern Hebrew typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Rubik', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#0B0F19',
+                            card: 'rgba(17, 25, 40, 0.75)',
+                            border: 'rgba(255, 255, 255, 0.125)',
+                            primary: '#00F0FF',
+                            secondary: '#7000FF'
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Glassmorphism Utilities */
+        body {
+            background-color: #0B0F19;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        .glass-card {
+            background-color: rgba(17, 25, 40, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 240, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 240, 255, 0.1);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to left, #00F0FF, #7000FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .glow-button {
+            position: relative;
+            background: linear-gradient(to left, #00F0FF, #0080FF);
+            z-index: 1;
+        }
+        
+        .glow-button::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: inherit;
+            background: linear-gradient(to left, #00F0FF, #0080FF);
+            filter: blur(15px);
+            opacity: 0.5;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .glow-button:hover::before {
+            opacity: 0.8;
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-primary selection:text-brand-dark">
+
+    <!-- Background Animated Blobs -->
+    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-brand-primary/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob"></div>
+        <div class="absolute top-40 left-10 w-96 h-96 bg-brand-secondary/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-20 left-1/2 w-96 h-96 bg-blue-500/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob animation-delay-4000"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative pt-24 pb-20 lg:pt-36 lg:pb-28 px-4 max-w-7xl mx-auto flex flex-col items-center text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-8">
+            <i class="ph-fill ph-stethoscope text-brand-primary text-xl"></i>
+            <span class="text-sm font-medium tracking-wide text-gray-300">אוניברסיטת תל אביב • קורס דגל יישומי</span>
+        </div>
+
+        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
+            בינה מלאכותית באחיות:<br>
+            <span class="text-gradient">מהלכה למעשה</span>
+        </h1>
+
+        <p class="text-lg md:text-xl text-gray-400 max-w-3xl leading-relaxed mb-10">
+            העניקו לעצמכם את הכלים המתקדמים ביותר להובלת חדשנות בעידן ה-AI. 
+            לא עוד קורס עיוני – אלא הכשרה מעשית שבה תפתחו פתרונות אמיתיים לשטח, ללא צורך בידע מוקדם בקוד.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-5 w-full sm:w-auto">
+            <a href="#register" class="glow-button text-brand-dark font-bold text-lg px-8 py-4 rounded-xl flex items-center justify-center gap-2 transition-transform hover:scale-105">
+                להרשמה למחזור הקרוב
+                <i class="ph-bold ph-arrow-left"></i>
+            </a>
+            <a href="#syllabus" class="glass-card text-white font-medium text-lg px-8 py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-white/5 transition-colors">
+                לתוכנית המלאה
+                <i class="ph-bold ph-caret-down"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Value Proposition -->
+    <section class="py-16 px-4 relative z-10">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-6">
+            <!-- Card 1 -->
+            <div class="glass-card p-8 rounded-2xl">
+                <div class="w-14 h-14 rounded-xl bg-brand-primary/10 flex items-center justify-center mb-6 border border-brand-primary/20">
+                    <i class="ph-duotone ph-code text-3xl text-brand-primary"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-3 text-white">פיתוח ללא קוד</h3>
+                <p class="text-gray-400 leading-relaxed">
+                    הקמת אתרים, אפליקציות עזר וסוכני ידע חכמים בשיחות טקסט בלבד. הנגשה מלאה של טכנולוגיה מתקדמת לשטח הקליני.
+                </p>
+            </div>
+            
+            <!-- Card 2 -->
+            <div class="glass-card p-8 rounded-2xl">
+                <div class="w-14 h-14 rounded-xl bg-purple-500/10 flex items-center justify-center mb-6 border border-purple-500/20">
+                    <i class="ph-duotone ph-folder-star text-3xl text-purple-400"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-3 text-white">פורטפוליו דיגיטלי</h3>
+                <p class="text-gray-400 leading-relaxed">
+                    למידה מבוססת תוצרים. בסיום הקורס תצאו עם אתר אישי המציג את הפיתוחים שלכם – נכס מקצועי יחיד מסוגו.
+                </p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="glass-card p-8 rounded-2xl">
+                <div class="w-14 h-14 rounded-xl bg-blue-500/10 flex items-center justify-center mb-6 border border-blue-500/20">
+                    <i class="ph-duotone ph-brain text-3xl text-blue-400"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-3 text-white">מחקר וראיות (EBP)</h3>
+                <p class="text-gray-400 leading-relaxed">
+                    סיכום מחקרים בסטנדרט אקדמי, ייעול משימות שוטפות ואיתור מידע קליני מבוסס ראיות במהירות שיא.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Syllabus Section -->
+    <section id="syllabus" class="py-24 px-4 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold mb-4 text-white">תוכנית המפגשים</h2>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+                    8 מפגשים ממוקדים שייקחו אתכם מהיכרות ראשונית ועד לפיתוח כלים עצמאיים.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Session 1 -->
+                <div class="glass-card p-6 rounded-2xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-1 h-full bg-brand-primary opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="text-brand-primary text-sm font-bold mb-2 tracking-wider">מפגש 1</div>
+                    <h3 class="text-xl font-bold text-white mb-3">יסודות, אתיקה וזהות דיגיטלית</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        הבנת מודלי השפה השונים, עקרונות אתיקה ובטיחות מידע באחיות, ויצירת תמונות ותוכן ויזואלי לזהות הדיגיטלית.
+                    </p>
+                </div>
+
+                <!-- Session 2 -->
+                <div class="glass-card p-6 rounded-2xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-1 h-full bg-brand-primary opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="text-brand-primary text-sm font-bold mb-2 tracking-wider">מפגש 2</div>
+                    <h3 class="text-xl font-bold text-white mb-3">AI למחקר וסיכום ספרות</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        שימוש בכלים מתקדמים לאיתור, ניתוח וסיכום ראיות מחקריות (EBP) ועיבוד מאמרים אקדמיים.
+                    </p>
+                </div>
+
+                <!-- Session 3 -->
+                <div class="glass-card p-6 rounded-2xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-1 h-full bg-brand-primary opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="text-brand-primary text-sm font-bold mb-2 tracking-wider">מפגש 3</div>
+                    <h3 class="text-xl font-bold text-white mb-3">עיצוב פדגוגי ופיתוח תוכן</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        יצירת מצגות, אינפוגרפיקות, פודקאסטים ותרשימים בשילוב כלי עיבוד מקורות וכלי עיצוב חזותיים.
+                    </p>
+                </div>
+
+                <!-- Session 4 -->
+                <div class="glass-card p-6 rounded-2xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-1 h-full bg-brand-primary opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="text-brand-primary text-sm font-bold mb-2 tracking-wider">מפגש 4</div>
+                    <h3 class="text-xl font-bold text-white mb-3">פיתוח פתרונות (Vibe Coding)</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        בניית אתרים, אפליקציות, משחקים, דפי נחיתה ולומדות מותאמות אישית באמצעות שיחה עם הקוד.
+                    </p>
+                </div>
+
+                <!-- Session 5 -->
+                <div class="glass-card p-6 rounded-2xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-1 h-full bg-brand-secondary opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="text-brand-secondary text-sm font-bold mb-2 tracking-wider">מפגש 5</div>
+                    <h3 class="text-xl font-bold text-white mb-3">הקמת פורטפוליו דיגיטלי</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        ריכוז כל תוצרי הקורס לכדי אתר אישי מקצועי אחד והעלאתו לרשת.
+                    </p>
+                </div>
+
+                <!-- Session 6 -->
+                <div class="glass-card p-6 rounded-2xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-1 h-full bg-brand-secondary opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="text-brand-secondary text-sm font-bold mb-2 tracking-wider">מפגש 6</div>
+                    <h3 class="text-xl font-bold text-white mb-3">פיתוח סוכני AI (Gems)</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        אפיון סוכנים אישיים חכמים וניתוח נתונים לייעול משימות קליניות.
+                    </p>
+                </div>
+
+                <!-- Session 7 -->
+                <div class="glass-card p-6 rounded-2xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-1 h-full bg-brand-secondary opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="text-brand-secondary text-sm font-bold mb-2 tracking-wider">מפגש 7</div>
+                    <h3 class="text-xl font-bold text-white mb-3">הפקה ועריכת וידאו</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        יצירת סרטוני הסברה והדרכה דינמיים, עריכה מתקדמת ושימוש בבינה מלאכותית ליצירת תוכן מונפש.
+                    </p>
+                </div>
+
+                <!-- Session 8 -->
+                <div class="glass-card p-6 rounded-2xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-1 h-full bg-brand-secondary opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="text-brand-secondary text-sm font-bold mb-2 tracking-wider">מפגש 8</div>
+                    <h3 class="text-xl font-bold text-white mb-3">סיכום ומשוב עמיתים</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        הצגה חגיגית של אתרי הפורטפוליו, למידת עמיתים מסכמת ומתן דגשים ליישום בשטח.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prerequisites -->
+    <section class="py-12 px-4 relative z-10">
+        <div class="max-w-4xl mx-auto">
+            <div class="glass-card rounded-2xl p-8 flex flex-col md:flex-row gap-6 items-start border-l-4 border-l-orange-500">
+                <div class="bg-orange-500/10 p-4 rounded-full text-orange-400 shrink-0">
+                    <i class="ph-duotone ph-warning-circle text-3xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-4">דרישות קדם לקורס</h3>
+                    <ul class="space-y-4 text-gray-300">
+                        <li class="flex items-center gap-3">
+                            <i class="ph-bold ph-check text-brand-primary"></i>
+                            שליטה בסיסית במיומנויות מחשב.
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="ph-bold ph-check text-brand-primary"></i>
+                            חשבון Google אישי פעיל (Gmail).
+                        </li>
+                        <li class="flex items-start gap-3 bg-white/5 p-4 rounded-lg mt-2">
+                            <i class="ph-fill ph-star text-yellow-400 mt-1"></i>
+                            <span class="leading-relaxed">
+                                <strong class="text-white">המלצה חמה:</strong> רכישת מנוי ל-Gemini Pro למשך חודשיים (תקופת הקורס) על מנת להפיק את המרב מהמפגשים המעשיים.
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration CTA -->
+    <section id="register" class="py-24 px-4 relative z-10">
+        <div class="max-w-4xl mx-auto">
+            <div class="relative rounded-3xl p-1 bg-gradient-to-r from-brand-primary to-brand-secondary">
+                <!-- Inner dark card -->
+                <div class="bg-brand-dark rounded-[22px] p-10 md:p-16 text-center">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-brand-primary/10 mb-8">
+                        <i class="ph-duotone ph-rocket-launch text-4xl text-brand-primary"></i>
+                    </div>
+                    
+                    <h2 class="text-3xl md:text-5xl font-extrabold mb-4 text-white">הבטיחו את מקומכם במחזור הקרוב</h2>
+                    <p class="text-xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+                        מספר המקומות מוגבל על מנת להבטיח יחס אישי ולמידה מעשית איכותית. הרישום מתבצע דרך מערכת הטפסים המאובטחת.
+                    </p>
+
+                    <!-- REPLACE THE HREF WITH YOUR GOOGLE FORMS LINK -->
+                    <a href="https://forms.gle/הכניסי_כאן_את_הקישור_לגוגל_פורמס_שלך" target="_blank" rel="noopener noreferrer" 
+                       class="glow-button inline-flex items-center justify-center gap-3 text-brand-dark font-bold text-xl px-12 py-5 rounded-xl transition-all hover:scale-105">
+                        מעבר לטופס ההרשמה
+                        <i class="ph-bold ph-arrow-up-right"></i>
+                    </a>
+                    
+                    <p class="mt-6 text-sm text-gray-500 flex items-center justify-center gap-2">
+                        <i class="ph-fill ph-lock-key"></i>
+                        ההרשמה מתבצעת בסביבה מאובטחת
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 py-8 text-center text-gray-500 relative z-10">
+        <p>© 2026 כל הזכויות שמורות. בינה מלאכותית באחיות: מהלכה למעשה.</p>
+    </footer>
+
+</body>
+</html>
