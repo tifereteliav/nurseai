@@ -13,9 +13,6 @@
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-    <!-- html2pdf.js for generating PDF client-side -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
     <!-- Tailwind CSS with custom configuration -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -231,10 +228,13 @@
                 <span>צפייה בסילבוס המלא</span>
                 <i class="ph-bold ph-caret-down"></i>
             </a>
-            <button onclick="downloadSyllabusPDF()" class="w-full sm:w-auto glow-button text-white font-bold text-lg px-8 py-5 rounded-2xl flex items-center justify-center gap-3 shadow-lg hover:shadow-brand-primary/30 transition-all cursor-pointer">
+            <a href="סילבוס אוניברסיטת תל אביב נובמבר 26.pdf" 
+               download="סילבוס אוניברסיטת תל אביב נובמבר 26.pdf" 
+               target="_blank"
+               class="w-full sm:w-auto glow-button text-white font-bold text-lg px-8 py-5 rounded-2xl flex items-center justify-center gap-3 shadow-lg hover:shadow-brand-primary/30 transition-all cursor-pointer">
                 <i class="ph-bold ph-file-pdf text-2xl"></i>
                 <span>להורדת הסילבוס</span>
-            </button>
+            </a>
         </div>
     </header>
 
@@ -281,9 +281,25 @@
                     מפת הדרכים שלכם
                     <div class="absolute -bottom-3 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-primary to-transparent opacity-50"></div>
                 </h2>
-                <p class="text-xl text-gray-400 max-w-3xl mx-auto font-light">
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto font-light mb-8">
                     8 מפגשים דינמיים שייקחו אתכם מאפס לפיתוח פתרונות טכנולוגיים עצמאיים המותאמים לעולם האחיות.
                 </p>
+
+                <!-- Action buttons inside Syllabus section to open or download original PDF -->
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="סילבוס אוניברסיטת תל אביב נובמבר 26.pdf" 
+                       target="_blank" 
+                       class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-brand-primary border border-brand-primary/30 font-semibold transition-all">
+                        <i class="ph-bold ph-arrow-square-out text-xl"></i>
+                        <span>פתיחת קובץ ה-PDF לצפייה בחלון חדש</span>
+                    </a>
+                    <a href="סילבוס אוניברסיטת תל אביב נובמבר 26.pdf" 
+                       download="סילבוס אוניברסיטת תל אביב נובמבר 26.pdf" 
+                       class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-primary/20 hover:bg-brand-primary/30 text-white border border-brand-primary/50 font-semibold transition-all">
+                        <i class="ph-bold ph-download-simple text-xl"></i>
+                        <span>להורדת הסילבוס</span>
+                    </a>
+                </div>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -458,112 +474,5 @@
         </div>
     </footer>
 
-    <script>
-        function downloadSyllabusPDF() {
-            const fileName = 'סילבוס אוניברסיטת תל אביב נובמבר 26.pdf';
-            
-            // Create a dedicated, elegantly styled printable PDF layout container
-            const syllabusContent = document.createElement('div');
-            syllabusContent.style.padding = '30px';
-            syllabusContent.style.fontFamily = 'Rubik, Arial, sans-serif';
-            syllabusContent.style.direction = 'rtl';
-            syllabusContent.style.color = '#1e293b';
-            syllabusContent.style.backgroundColor = '#ffffff';
-            
-            syllabusContent.innerHTML = `
-                <div style="text-align: center; border-bottom: 2px solid #00E5FF; padding-bottom: 20px; margin-bottom: 25px;">
-                    <h1 style="color: #0f172a; font-size: 22px; font-weight: bold; margin: 0 0 8px 0;">אוניברסיטת תל אביב • החוג למדעי האחיות</h1>
-                    <h2 style="color: #0088cc; font-size: 18px; font-weight: bold; margin: 0 0 5px 0;">בינה מלאכותית באחיות: מהלכה למעשה</h2>
-                    <p style="color: #64748b; font-size: 13px; margin: 0;">סילבוס קורס מחזור נובמבר 2026</p>
-                </div>
-
-                <div style="margin-bottom: 20px; line-height: 1.6; font-size: 13px;">
-                    <p style="margin: 0 0 10px 0;"><strong>תיאור הקורס:</strong> קורס דגל יישומי המעניק כלים מתקדמים להובלת חדשנות בעולם הסיעוד. הקורס מתמקד בפיתוח פתרונות מעשיים לשטח: מסיכום מחקרים ועד הקמת אפליקציות עזר קליניות ללא צורך בידע מוקדם בקוד.</p>
-                </div>
-
-                <h3 style="color: #0f172a; font-size: 15px; font-weight: bold; border-right: 4px solid #B400FF; padding-right: 10px; margin-bottom: 12px;">תוכנית המפגשים:</h3>
-
-                <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px;">
-                    <thead>
-                        <tr style="background-color: #f1f5f9; text-align: right;">
-                            <th style="padding: 8px; border: 1px solid #e2e8f0; width: 12%;">מפגש</th>
-                            <th style="padding: 8px; border: 1px solid #e2e8f0; width: 28%;">נושא</th>
-                            <th style="padding: 8px; border: 1px solid #e2e8f0;">פירוט תכנים</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">מפגש 01</td>
-                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">אתיקה וזהות דיגיטלית</td>
-                            <td style="padding: 8px; border: 1px solid #e2e8f0;">הבנת מודלי השפה, עקרונות אתיקה ובטיחות מידע, ויצירת תמונות ותוכן ויזואלי לזהות הדיגיטלית.</td>
-                        </tr>
-                        <tr style="background-color: #fafafa;">
-                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">מפגש 02</td>
-                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">AI לסיכום ספרות</td>
-                            <td style="padding: 8px; border: 1px solid #e2e8f0;">איתור, ניתוח וסיכום ראיות מחקריות (EBP) ועיבוד מאמרים אקדמיים בכלים מתקדמים.</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">מפגש 03</td>
-                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">עיצוב פדגוגי</td>
-                            <td style="padding: 8px; border: 1px solid #e2e8f0;">יצירת מצגות, אינפוגרפיקות ופודקאסטים בשילוב כלי עיבוד מקורות (NotebookLM & Canva).</td>
-                        </tr>
-                        <tr style="background-color: #fafafa;">
-                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">מפגש 04</td>
-                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">Vibe Coding</td>
-                            <td style="padding: 8px; border: 1px solid #e2e8f0;">בניית אתרים, אפליקציות, משחקים ולומדות קליניות מותאמות אישית – הכל באמצעות שיחה עם הקוד.</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">מפגש 05</td>
-                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">פורטפוליו דיגיטלי</td>
-                            <td style="padding: 8px; border: 1px solid #e2e8f0;">ריכוז תוצרי הקורס לאתר מקצועי אחד והעלאתו לרשת (Vercel & GitHub).</td>
-                        </tr>
-                        <tr style="background-color: #fafafa;">
-                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">מפגש 06</td>
-                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">סוכני AI אישיים</td>
-                            <td style="padding: 8px; border: 1px solid #e2e8f0;">אפיון ופיתוח סוכנים אישיים חכמים לייעול משימות קליניות ולניתוח נתונים מתקדם.</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">מפגש 07</td>
-                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">הפקת וידאו</td>
-                            <td style="padding: 8px; border: 1px solid #e2e8f0;">יצירת סרטוני הסברה דינמיים ושימוש בבינה מלאכותית ליצירת תוכן מונפש לשירות ההדרכה.</td>
-                        </tr>
-                        <tr style="background-color: #fafafa;">
-                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">מפגש 08</td>
-                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">הצגה וסיכום</td>
-                            <td style="padding: 8px; border: 1px solid #e2e8f0;">הצגה חגיגית של הפורטפוליו, משוב עמיתים ומתן דגשים קריטיים ליישום הכלים בשטח.</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; font-size: 12px;">
-                    <h4 style="margin: 0 0 6px 0; font-weight: bold; color: #0f172a;">דרישות קדם:</h4>
-                    <ul style="margin: 0; padding-right: 18px; line-height: 1.5;">
-                        <li>שליטה בסיסית במיומנויות מחשב.</li>
-                        <li>חשבון Google אישי ופעיל (Gmail פרטי, לא ארגוני).</li>
-                        <li>מומלץ בחום: מנוי ל-Gemini Pro למשך חודשיים (תקופת הקורס).</li>
-                    </ul>
-                </div>
-            `;
-
-            if (typeof html2pdf !== 'undefined') {
-                const opt = {
-                    margin:       10,
-                    filename:     fileName,
-                    image:        { type: 'jpeg', quality: 0.98 },
-                    html2canvas:  { scale: 2, useCORS: true },
-                    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-                };
-                html2pdf().set(opt).from(syllabusContent).save();
-            } else {
-                // Fallback using Blob
-                const blob = new Blob([syllabusContent.innerText], { type: 'text/plain;charset=utf-8' });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = fileName;
-                link.click();
-                URL.revokeObjectURL(link.href);
-            }
-        }
-    </script>
 </body>
 </html>
