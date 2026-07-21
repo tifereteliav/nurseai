@@ -13,7 +13,10 @@
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-    <!-- Tailwind CSS -->
+    <!-- html2pdf.js for generating PDF client-side -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <!-- Tailwind CSS with custom configuration -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -180,14 +183,12 @@
 </head>
 <body class="antialiased selection:bg-brand-primary selection:text-brand-dark">
 
-    <!-- Super Vibrant Background Blobs -->
     <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
         <div class="absolute -top-20 -right-20 w-[500px] h-[500px] bg-brand-primary/20 rounded-full mix-blend-screen filter blur-[120px] animate-blob"></div>
         <div class="absolute top-1/3 -left-20 w-[600px] h-[600px] bg-brand-secondary/20 rounded-full mix-blend-screen filter blur-[150px] animate-blob" style="animation-delay: 2s;"></div>
         <div class="absolute -bottom-40 right-1/4 w-[500px] h-[500px] bg-brand-accent/15 rounded-full mix-blend-screen filter blur-[120px] animate-blob" style="animation-delay: 4s;"></div>
     </div>
 
-    <!-- Hero Section -->
     <header class="relative pt-20 pb-20 lg:pt-32 lg:pb-28 px-4 max-w-7xl mx-auto flex flex-col items-center text-center">
         
         <!-- Scarcity Badge -->
@@ -197,14 +198,21 @@
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
                   <span class="relative inline-flex rounded-full h-3 w-3 bg-brand-primary"></span>
                 </span>
-                <span class="text-sm font-bold text-brand-primary tracking-wide">הרשמה למחזור הראשון נפתחה • מספר המקומות מוגבל</span>
+                <span class="text-sm font-bold text-brand-primary tracking-wide">הרשמה למחזור השני נפתחה • מספר המקומות מוגבל</span>
             </span>
         </div>
 
-        <!-- Nursing Logo Replacement for University Badge -->
+        <!-- Nursing Logo Replacement with Fallback SVG Badge -->
         <div class="mb-8 flex justify-center">
-            <div class="px-6 py-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md shadow-xl">
-                <img src="NursingLogo_HEB.png" alt="לוגו החוג למדעי האחיות" class="h-16 md:h-20 w-auto object-contain invert brightness-200 grayscale">
+            <div class="px-6 py-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md shadow-xl flex items-center gap-3">
+                <img src="NursingLogo_HEB.png" 
+                     alt="לוגו החוג למדעי האחיות" 
+                     class="h-16 md:h-20 w-auto object-contain invert brightness-200 grayscale"
+                     onerror="this.onerror=null; this.style.display='none'; document.getElementById('hero-logo-fallback').style.display='flex';">
+                <div id="hero-logo-fallback" class="hidden items-center gap-3 text-brand-primary font-bold text-xl">
+                    <i class="ph-duotone ph-first-aid-kit text-3xl"></i>
+                    <span>החוג למדעי האחיות</span>
+                </div>
             </div>
         </div>
 
@@ -218,20 +226,19 @@
             <strong class="text-white font-semibold">לא מדובר בעוד קורס עיוני</strong>, אלא בהכשרה מעשית שבה תלמדו לפתח פתרונות אמיתיים לשטח: מסיכום מחקרים ועד הקמת אפליקציות עזר קליניות <span class="bg-brand-primary/20 text-brand-primary px-2 py-0.5 rounded">ללא צורך בידע מוקדם בקוד.</span>
         </p>
 
-        <div class="flex flex-col sm:flex-row gap-6 w-full sm:w-auto">
-            <a href="#syllabus" class="glass-card text-white font-bold text-lg px-10 py-5 rounded-2xl flex items-center justify-center gap-3 hover:bg-white/10 transition-colors">
-                צפייה בסילבוס המלא
+        <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full sm:w-auto items-center justify-center">
+            <a href="#syllabus" class="w-full sm:w-auto glass-card text-white font-bold text-lg px-8 py-5 rounded-2xl flex items-center justify-center gap-3 hover:bg-white/10 transition-colors">
+                <span>צפייה בסילבוס המלא</span>
                 <i class="ph-bold ph-caret-down"></i>
             </a>
+            <button onclick="downloadSyllabusPDF()" class="w-full sm:w-auto glow-button text-white font-bold text-lg px-8 py-5 rounded-2xl flex items-center justify-center gap-3 shadow-lg hover:shadow-brand-primary/30 transition-all cursor-pointer">
+                <i class="ph-bold ph-file-pdf text-2xl"></i>
+                <span>להורדת הסילבוס בקובץ PDF</span>
+            </button>
         </div>
     </header>
 
     <!-- Value Proposition -->
-    <section class="py-16 px-4 relative z-10">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
-            <!-- Card 1 -->
-            <div class="glass-card p-10 rounded-3xl relative overflow-hidden group">
-                <div class="absolute top-0 right-0 w-full h-1 bg-gradient-to-l from-brand-primary to-transparent opacity-50 group-hover:opacity-100 transition-opacity"></div>
                 <div class="w-16 h-16 rounded-2xl bg-brand-primary/10 flex items-center justify-center mb-8 border border-brand-primary/30 shadow-[0_0_15px_rgba(0,229,255,0.15)] group-hover:scale-110 transition-transform">
                     <i class="ph-duotone ph-code text-4xl text-brand-primary"></i>
                 </div>
@@ -267,7 +274,6 @@
         </div>
     </section>
 
-    <!-- Syllabus Section -->
     <section id="syllabus" class="py-24 px-4 relative z-10">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-20 relative">
@@ -381,7 +387,6 @@
         </div>
     </section>
 
-    <!-- Prerequisites -->
     <section class="py-12 px-4 relative z-10">
         <div class="max-w-4xl mx-auto">
             <div class="glass-card rounded-3xl p-8 md:p-10 flex flex-col md:flex-row gap-8 items-center md:items-start border-l-4 border-l-[#FFB800] bg-gradient-to-r from-[rgba(255,184,0,0.05)] to-transparent relative overflow-hidden">
@@ -403,7 +408,7 @@
                         <li class="flex items-start gap-4 bg-gradient-to-r from-brand-secondary/20 to-transparent p-4 rounded-xl mt-4 border border-brand-secondary/30 relative">
                             <i class="ph-fill ph-star text-yellow-400 text-2xl shrink-0 mt-1 animate-pulse"></i>
                             <span class="leading-relaxed">
-                                <strong class="text-white block mb-1">המלצה חמה להצלחה:</strong> רכישת מנוי ל-Gemini Pro למשך חודשיים (תקופת הקורס ) על מנת להפיק את המרב מהמפגשים המעשיים ולהימנע ממגבלות טכניות.
+                                <strong class="text-white block mb-1">המלצה חמה להצלחה:</strong> רכישת מנוי ל-Gemini Pro למשך חודשיים (תקופת הקורס) על מנת להפיק את המרב מהמפגשים המעשיים ולהימנע ממגבלות טכניות.
                             </span>
                         </li>
                     </ul>
@@ -412,7 +417,6 @@
         </div>
     </section>
 
-    <!-- Info CTA (Formerly Registration) -->
     <section id="info" class="py-24 px-4 relative z-10">
         <div class="max-w-5xl mx-auto">
             <div class="relative rounded-[2.5rem] p-1.5 bg-gradient-to-br from-brand-primary via-brand-secondary to-brand-accent animate-pulse-slow shadow-[0_0_50px_rgba(180,0,255,0.3)]">
@@ -438,15 +442,128 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="border-t border-white/10 bg-black/50 py-12 text-center text-gray-500 relative z-10">
         <div class="max-w-7xl mx-auto px-4 flex flex-col items-center gap-6">
             <div class="flex flex-col items-center gap-4">
-                <img src="NursingLogo_HEB.png" alt="לוגו החוג למדעי האחיות - אוניברסיטת תל אביב" class="h-12 md:h-16 w-auto object-contain invert brightness-150 grayscale opacity-80">
+                <img src="NursingLogo_HEB.png" 
+                     alt="לוגו החוג למדעי האחיות - אוניברסיטת תל אביב" 
+                     class="h-12 md:h-16 w-auto object-contain invert brightness-150 grayscale opacity-80"
+                     onerror="this.onerror=null; this.style.display='none'; document.getElementById('footer-logo-fallback').style.display='flex';">
+                <div id="footer-logo-fallback" class="hidden items-center gap-2 text-gray-400 font-medium">
+                    <i class="ph-duotone ph-first-aid-kit text-xl"></i>
+                    <span>החוג למדעי האחיות</span>
+                </div>
             </div>
             <p class="text-sm">© 2026 כל הזכויות שמורות. בינה מלאכותית באחיות: מהלכה למעשה.</p>
         </div>
     </footer>
 
+    <script>
+        function downloadSyllabusPDF() {
+            const fileName = 'סילבוס אוניברסיטת תל אביב נובמבר 26.pdf';
+            
+            // Create a dedicated, elegantly styled printable PDF layout container
+            const syllabusContent = document.createElement('div');
+            syllabusContent.style.padding = '30px';
+            syllabusContent.style.fontFamily = 'Rubik, Arial, sans-serif';
+            syllabusContent.style.direction = 'rtl';
+            syllabusContent.style.color = '#1e293b';
+            syllabusContent.style.backgroundColor = '#ffffff';
+            
+            syllabusContent.innerHTML = `
+                <div style="text-align: center; border-bottom: 2px solid #00E5FF; padding-bottom: 20px; margin-bottom: 25px;">
+                    <h1 style="color: #0f172a; font-size: 22px; font-weight: bold; margin: 0 0 8px 0;">אוניברסיטת תל אביב • החוג למדעי האחיות</h1>
+                    <h2 style="color: #0088cc; font-size: 18px; font-weight: bold; margin: 0 0 5px 0;">בינה מלאכותית באחיות: מהלכה למעשה</h2>
+                    <p style="color: #64748b; font-size: 13px; margin: 0;">סילבוס קורס מחזור נובמבר 2026</p>
+                </div>
+
+                <div style="margin-bottom: 20px; line-height: 1.6; font-size: 13px;">
+                    <p style="margin: 0 0 10px 0;"><strong>תיאור הקורס:</strong> קורס דגל יישומי המעניק כלים מתקדמים להובלת חדשנות בעולם הסיעוד. הקורס מתמקד בפיתוח פתרונות מעשיים לשטח: מסיכום מחקרים ועד הקמת אפליקציות עזר קליניות ללא צורך בידע מוקדם בקוד.</p>
+                </div>
+
+                <h3 style="color: #0f172a; font-size: 15px; font-weight: bold; border-right: 4px solid #B400FF; padding-right: 10px; margin-bottom: 12px;">תוכנית המפגשים:</h3>
+
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px;">
+                    <thead>
+                        <tr style="background-color: #f1f5f9; text-align: right;">
+                            <th style="padding: 8px; border: 1px solid #e2e8f0; width: 12%;">מפגש</th>
+                            <th style="padding: 8px; border: 1px solid #e2e8f0; width: 28%;">נושא</th>
+                            <th style="padding: 8px; border: 1px solid #e2e8f0;">פירוט תכנים</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">מפגש 01</td>
+                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">אתיקה וזהות דיגיטלית</td>
+                            <td style="padding: 8px; border: 1px solid #e2e8f0;">הבנת מודלי השפה, עקרונות אתיקה ובטיחות מידע, ויצירת תמונות ותוכן ויזואלי לזהות הדיגיטלית.</td>
+                        </tr>
+                        <tr style="background-color: #fafafa;">
+                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">מפגש 02</td>
+                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">AI לסיכום ספרות</td>
+                            <td style="padding: 8px; border: 1px solid #e2e8f0;">איתור, ניתוח וסיכום ראיות מחקריות (EBP) ועיבוד מאמרים אקדמיים בכלים מתקדמים.</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">מפגש 03</td>
+                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">עיצוב פדגוגי</td>
+                            <td style="padding: 8px; border: 1px solid #e2e8f0;">יצירת מצגות, אינפוגרפיקות ופודקאסטים בשילוב כלי עיבוד מקורות (NotebookLM & Canva).</td>
+                        </tr>
+                        <tr style="background-color: #fafafa;">
+                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">מפגש 04</td>
+                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">Vibe Coding</td>
+                            <td style="padding: 8px; border: 1px solid #e2e8f0;">בניית אתרים, אפליקציות, משחקים ולומדות קליניות מותאמות אישית – הכל באמצעות שיחה עם הקוד.</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">מפגש 05</td>
+                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">פורטפוליו דיגיטלי</td>
+                            <td style="padding: 8px; border: 1px solid #e2e8f0;">ריכוז תוצרי הקורס לאתר מקצועי אחד והעלאתו לרשת (Vercel & GitHub).</td>
+                        </tr>
+                        <tr style="background-color: #fafafa;">
+                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">מפגש 06</td>
+                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">סוכני AI אישיים</td>
+                            <td style="padding: 8px; border: 1px solid #e2e8f0;">אפיון ופיתוח סוכנים אישיים חכמים לייעול משימות קליניות ולניתוח נתונים מתקדם.</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">מפגש 07</td>
+                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">הפקת וידאו</td>
+                            <td style="padding: 8px; border: 1px solid #e2e8f0;">יצירת סרטוני הסברה דינמיים ושימוש בבינה מלאכותית ליצירת תוכן מונפש לשירות ההדרכה.</td>
+                        </tr>
+                        <tr style="background-color: #fafafa;">
+                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">מפגש 08</td>
+                            <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold;">הצגה וסיכום</td>
+                            <td style="padding: 8px; border: 1px solid #e2e8f0;">הצגה חגיגית של הפורטפוליו, משוב עמיתים ומתן דגשים קריטיים ליישום הכלים בשטח.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; font-size: 12px;">
+                    <h4 style="margin: 0 0 6px 0; font-weight: bold; color: #0f172a;">דרישות קדם:</h4>
+                    <ul style="margin: 0; padding-right: 18px; line-height: 1.5;">
+                        <li>שליטה בסיסית במיומנויות מחשב.</li>
+                        <li>חשבון Google אישי ופעיל (Gmail פרטי, לא ארגוני).</li>
+                        <li>מומלץ בחום: מנוי ל-Gemini Pro למשך חודשיים (תקופת הקורס).</li>
+                    </ul>
+                </div>
+            `;
+
+            if (typeof html2pdf !== 'undefined') {
+                const opt = {
+                    margin:       10,
+                    filename:     fileName,
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { scale: 2, useCORS: true },
+                    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                };
+                html2pdf().set(opt).from(syllabusContent).save();
+            } else {
+                // Fallback using Blob
+                const blob = new Blob([syllabusContent.innerText], { type: 'text/plain;charset=utf-8' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = fileName;
+                link.click();
+                URL.revokeObjectURL(link.href);
+            }
+        }
+    </script>
 </body>
 </html>
